@@ -31,7 +31,7 @@ assignment_version = '1.0'
 
 ## Task 1 ###################################################################### 
 # Replace 999 with your student id
-student_id = 999
+student_id = 101092638
 
 ## Task 2 ######################################################################
 # Create an N by N 2D array with 1 on both diagonals and zeros everywhere else. 
@@ -43,7 +43,11 @@ student_id = 999
 #        [1, 0, 0, 1]])
 
 def xmatrix(N):
-    return np.zeros((N,N), dtype=int)
+    x =  np.eye(N)
+    y = np.eye(N)[::-1]
+    z = x + y
+    z[1:-1, 1:-1] = 1
+    return z.astype(int)
 
 ## Task 3 ######################################################################
 # Write a function that given a 2D array m finds the column with the lowest sum, 
@@ -59,7 +63,7 @@ def xmatrix(N):
 #
 # The output value should be either a list or a tuple of length 2, row index
 # first, and then column index.
-# If two or more rows (or columns) have the same lowest sum, use the one with 
+# If two or more rows (or columns) have the same lowest sum, use the one with  
 # the lowest index.
 # 
 # Hints:
@@ -68,7 +72,7 @@ def xmatrix(N):
 #    For example, for 1D array `b` if ix = b.argmin() then b[ix] == b.min()
 
 def min_row_col(m):
-    return 0, 0  # min_row_ix, min_col_ix
+    return np.argmin(np.sum(m,axis=1)), np.argmin(np.sum(m,axis=0)) # min_row_ix, min_col_ix
 
 ## Task 4 ###################################################################### 
 # The `car_data` array holds reading from a car dashboard. The first column is
@@ -81,6 +85,7 @@ def min_row_col(m):
 #
 # FYI: The RPM gauge is called "tachometer"
 def fix_gauge_bias(car_data, speed_bias, rpm_bias):
+    car_data = car_data - np.array([speed_bias, rpm_bias])
     return car_data
 
 ## Task 5
@@ -107,7 +112,13 @@ def fix_gauge_bias(car_data, speed_bias, rpm_bias):
 # such as continuously variable transmission (CVT) and the hybrid transmission
 # in Toyota Prius.
 def was_gear_switched(car_data):
-    return False
+    str = False
+    for i in range(car_data.shape[0]):
+        if(i+1 >= car_data.shape[0]):
+            break
+        if(abs(np.divide(car_data[i,1],car_data[i,0])-np.divide(car_data[i+1,1],car_data[i+1,0])) >= 10):
+            str = True
+    return str
 
 ## Task 6 (bonus) ##############################################################
 # With the same data and assumptions as Task 3 count how many different gears
@@ -121,7 +132,15 @@ def was_gear_switched(car_data):
 # HINT: take a look at np.unique() and array sort() functions, they might be
 # useful (depending on the strategy you choose).
 def count_gears_used(car_data):
-    return 1
+    gear = 1
+    for i in range(car_data.shape[0]):
+        if(i+1 >= car_data.shape[0]):
+            break
+        if(np.divide(car_data[i,1],car_data[i,0])-np.divide(car_data[i+1,1],car_data[i+1,0]) >= 10):
+            gear += 1
+        """if(np.divide(car_data[i,1],car_data[i,0])-np.divide(car_data[i+1,1],car_data[i+1,0]) <= (-10)):
+            gear -= 1"""
+    return gear
 
     
 
