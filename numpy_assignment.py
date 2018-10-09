@@ -43,11 +43,11 @@ student_id = 101092638
 #        [1, 0, 0, 1]])
 
 def xmatrix(N):
-    x =  np.eye(N)
-    y = np.eye(N)[::-1]
-    z = x + y
-    z[1:-1, 1:-1] = 1
-    return z.astype(int)
+    diagonalArray =  np.eye(N)
+    transversalDiagonalArray = np.eye(N)[::-1]
+    finalArray = diagonalArray + transversalDiagonalArray
+    finalArray[1:-1, 1:-1] = 1
+    return finalArray.astype(int)
 
 ## Task 3 ######################################################################
 # Write a function that given a 2D array m finds the column with the lowest sum, 
@@ -139,7 +139,7 @@ def count_gears_used(car_data):
         if(np.divide(car_data[i,1],car_data[i,0])-np.divide(car_data[i+1,1],car_data[i+1,0]) >= 10):
             gear += 1
         """if(np.divide(car_data[i,1],car_data[i,0])-np.divide(car_data[i+1,1],car_data[i+1,0]) <= (-10)):
-            gear -= 1"""
+            gear -= 1""" #if you want to see which gear you are at currently
     return gear
 
     
